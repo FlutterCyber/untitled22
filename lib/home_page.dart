@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     var logger = Logger();
     ApiService apiService = ApiService();
     Response? response = await apiService.getRequest("/posts");
+    //logger.i(response!.data.runtimeType);
     List<MyModel> myModels = listFromJson(response!.data);
     setState(() {
       my_models = myModels;
@@ -34,35 +35,45 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: const Text("Home Page"),
-        centerTitle: true,
-      ),
-      body: SizedBox(
+        appBar: AppBar(
+          backgroundColor: Colors.green,
+          title: const Text("Home Page"),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.arrow_circle_right),
+            ),
+          ],
+        ),
+        body: SizedBox(
           width: double.infinity,
           child: Padding(
-              padding: EdgeInsets.all(20),
-              child: my_models == null
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : ListView.builder(
-                      itemCount: my_models?.length,
-                      itemBuilder: (context, index) => Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        color: Colors.grey,
+            padding: EdgeInsets.all(20),
+            child: my_models == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: my_models?.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        decoration: const BoxDecoration(color: Colors.grey),
                         child: ListTile(
-                          title: Row(
-                            children: [
-                              Text(my_models![index].id.toString()),
-                              Text(my_models![index].title),
-                            ],
+                          title: Text(
+                            my_models![index].title,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17),
                           ),
-                          subtitle: Text(my_models![index].body),
+                          subtitle: Text(
+                            my_models![index].body,
+                          ),
                         ),
-                      ),
-                    ))),
-    );
+                      );
+                    },
+                  ),
+          ),
+        ));
   }
 }

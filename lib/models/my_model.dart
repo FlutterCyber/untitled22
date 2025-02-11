@@ -24,7 +24,15 @@ class MyModel {
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,
+      'title': title,
+      'body': body,
+    };
+  }
+
+  Map<String, dynamic> toJsonForUpdate() {
+    return {
       'id': id,
+      'userId': userId,
       'title': title,
       'body': body,
     };

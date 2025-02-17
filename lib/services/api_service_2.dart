@@ -1,23 +1,21 @@
 import 'package:dio/dio.dart';
+import 'package:untitled2/models/user_model.dart';
 
-class ApiService {
-
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://dummyjson.com',
-      // Change to your API base URL
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    ),
-  );
+class ApiService2 {
+  String baseUrl = "https://dummyjson.com";
+  final Dio _dio = Dio();
 
   // GET Request
-  Future<Response?> getRequest(String endpoint,
+  Future<Response?> getRequest(String endpoint, String accessToken,
       {Map<String, dynamic>? queryParams}) async {
     try {
-      Response response =
-          await _dio.get(endpoint, queryParameters: queryParams);
+      Response response = await _dio.get(
+        baseUrl + endpoint,
+        queryParameters: queryParams,
+        options: Options(
+          headers: {'Authorization': 'Bearer $accessToken'},
+        ),
+      );
       return response;
     } catch (e) {
       print('GET Request Error: $e');
